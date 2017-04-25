@@ -13,11 +13,11 @@ import scala.io.Source
   */
 trait DataPreprocessor {
 
-  def loadVocabulary(fileName: String): Unit
+  def loadVocabulary(): Unit
 
-  def loadShapeMap(fileName: String): Unit
+  def loadShapeMap(): Unit
 
-  def loadLabelMap(fileName: String): Unit
+  def loadLabelMap(): Unit
 
   def mapTokensToIndices(sentences: Iterable[Sentence],
                          maxLength: Int): util.LinkedList[util.LinkedList[java.lang.Double]]
@@ -32,7 +32,13 @@ trait DataPreprocessor {
 
 }
 
-class ModelServerDataPreprocessor(batchSz: Int) extends DataPreprocessor {
+object DataPreprocessor extends ModelServerDataPreprocessor(100,
+  System.getProperty("user.dir") + "/config/vocabulary.txt",
+  System.getProperty("user.dir") + "/config/shape.txt",
+  System.getProperty("user.dir") + "/config/tags.txt")
+
+class ModelServerDataPreprocessor(batchSz: Int, vocabularyFilePath: String, shapeFilePath: String,
+                                  labelFilePath: String) extends DataPreprocessor {
 
   val batchSize = batchSz
   var vocabulary = new util.HashMap[String, Int]()
@@ -42,11 +48,10 @@ class ModelServerDataPreprocessor(batchSz: Int) extends DataPreprocessor {
   /**
     * Load the vocabulary from a file into a hashmap
     *
-    * @param fileName the location of the vocabulary text file
     */
-  def loadVocabulary(fileName: String): Unit = {
+  def loadVocabulary(): Unit = {
     val count = 0
-    for (line <- Source.fromFile(fileName).getLines) {
+    for (line <- Source.fromFile(vocabularyFilePath).getLines) {
       val split = line.split("\t")
       if (split.size == 1) {
         vocabulary.put(" ", Integer.valueOf(split(0)))
@@ -59,12 +64,11 @@ class ModelServerDataPreprocessor(batchSz: Int) extends DataPreprocessor {
   /**
     * Load the shapes from a file into a hash map
     *
-    * @param fileName the location of the shape files
     */
-  def loadShapeMap(fileName: String): Unit = {
+  def loadShapeMap(): Unit = {
     val count = 0
 
-    for (line <- Source.fromFile(fileName: String).getLines) {
+    for (line <- Source.fromFile(shapeFilePath).getLines) {
       val split = line.split("\t")
       shapeMap.put(split(0), Integer.valueOf(split(1)))
     }
@@ -73,11 +77,10 @@ class ModelServerDataPreprocessor(batchSz: Int) extends DataPreprocessor {
   /**
     * Load the labels into a hashmap from a file
     *
-    * @param fileName the location of the file
     */
-  def loadLabelMap(fileName: String): Unit = {
+  def loadLabelMap(): Unit = {
     val count = 0
-    for (line <- Source.fromFile(fileName: String).getLines) {
+    for (line <- Source.fromFile(labelFilePath).getLines) {
       val split = line.split("\t")
       labelMap.put(Integer.valueOf(split(1)), split(0))
     }

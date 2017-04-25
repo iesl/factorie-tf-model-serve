@@ -21,6 +21,10 @@ class ModelServer(inputTensorParser: ModelServerInputTensorParser,
     */
   def processDocument(document: Document): Document = {
 
+    dataPreprocessor.loadVocabulary()
+    dataPreprocessor.loadShapeMap()
+    dataPreprocessor.loadLabelMap()
+
     val sentences = document.sentences
 
     // load the frozen graph into a session

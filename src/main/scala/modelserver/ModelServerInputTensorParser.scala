@@ -9,6 +9,8 @@ import org.tensorflow.Tensor
 /**
   * Created by Udit on 4/24/17.
   */
+object InputTensorParser extends ModelServerInputTensorParser
+
 class ModelServerInputTensorParser {
 
   /**

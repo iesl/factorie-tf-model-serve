@@ -6,7 +6,7 @@ import cc.factorie.app.nlp.DocumentAnnotationPipeline
 import cc.factorie.app.nlp.load.LoadPlainText
 import cc.factorie.app.nlp.ner.BilouConllNerTag
 import cc.factorie.app.nlp.segment.{DeterministicNormalizingTokenizer, DeterministicSentenceSegmenter}
-import main.scala.modelserver.{ModelServer, ModelServerDataPreprocessor, ModelServerInputTensorParser, ModelServerNER}
+import main.scala.modelserver._
 
 import scala.io.Source
 
@@ -18,25 +18,14 @@ object ModelServerDemo {
   def main(args: Array[String]): Unit = {
     val currentDir = System.getProperty("user.dir")
     val inputDataFileName = currentDir + "/data/input_3.txt"
-    val inputDataShapeFileName = currentDir + "/config/shape.txt"
-    val tagMapFileName = currentDir + "/config/tags.txt"
-    val vocabFileName = currentDir + "/config/vocabulary.txt"
     val modelPath = currentDir + "/models/model.pb"
 
-    object dataPreprocessor extends ModelServerDataPreprocessor(100)
-    dataPreprocessor.loadVocabulary(vocabFileName)
-    dataPreprocessor.loadShapeMap(inputDataShapeFileName)
-    dataPreprocessor.loadLabelMap(tagMapFileName)
+    //    var documents = LoadPlainText.fromSource(Source.fromFile(file = new File(inputDataFileName)))
 
-//    var documents = LoadPlainText.fromSource(Source.fromFile(file = new File(inputDataFileName)))
-
-    object inputTensorParser extends ModelServerInputTensorParser
-
-    object modelServer extends ModelServer(inputTensorParser, dataPreprocessor, modelPath)
+    object modelServer extends ModelServer(InputTensorParser, DataPreprocessor, modelPath)
     object modelServerNER extends ModelServerNER[BilouConllNerTag](modelServer)
 
-    val documents = LoadPlainText.fromSource(Source.fromFile(file = new File
-    (inputDataFileName)))
+    val documents = LoadPlainText.fromSource(Source.fromFile(file = new File(inputDataFileName)))
 
     val annotators = Seq(DeterministicNormalizingTokenizer, DeterministicSentenceSegmenter, modelServerNER)
     val pipeline = new DocumentAnnotationPipeline(annotators)
