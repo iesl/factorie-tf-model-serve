@@ -1,4 +1,4 @@
-package main.modelserver
+package main.scala.modelserver
 
 import java.nio.file.Paths
 import java.util
@@ -35,8 +35,6 @@ class ModelServer(inputTensorParser: ModelServerInputTensorParser,
 
     // close the session
     session.close()
-
-    // TODO: make sure the document here is annotated
     document
   }
 
@@ -170,7 +168,6 @@ class ModelServer(inputTensorParser: ModelServerInputTensorParser,
     * Used to map the predicted/output labels to tags
     *
     * @param output    the predicted output
-
     * @param seqLenMap the sequence lengths of each of the sentences
     * @return the mapped sentences
     */

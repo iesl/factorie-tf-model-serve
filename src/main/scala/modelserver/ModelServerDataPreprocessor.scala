@@ -1,4 +1,4 @@
-package main.modelserver
+package main.scala.modelserver
 
 import java.util
 

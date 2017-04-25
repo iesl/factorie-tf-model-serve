@@ -1,13 +1,12 @@
-package main
+package main.scala
 
 import java.io.File
 
 import cc.factorie.app.nlp.DocumentAnnotationPipeline
 import cc.factorie.app.nlp.load.LoadPlainText
-import cc.factorie.app.nlp.ner.{BilouConllNerTag, ConllChainNer, StaticLexiconFeatures}
+import cc.factorie.app.nlp.ner.BilouConllNerTag
 import cc.factorie.app.nlp.segment.{DeterministicNormalizingTokenizer, DeterministicSentenceSegmenter}
-import cc.factorie.util.ModelProvider
-import main.modelserver.{ModelServer, ModelServerDataPreprocessor, ModelServerInputTensorParser, ModelServerNER}
+import main.scala.modelserver.{ModelServer, ModelServerDataPreprocessor, ModelServerInputTensorParser, ModelServerNER}
 
 import scala.io.Source
 

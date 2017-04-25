@@ -1,4 +1,4 @@
-package main.modelserver
+package main.scala.modelserver
 
 import java.io.IOException
 import java.nio.file.{Files, Path}
