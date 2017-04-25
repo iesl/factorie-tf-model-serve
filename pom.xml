@@ -1,0 +1,151 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>edu.umass.cs.iesl</groupId>
+    <artifactId>project-name</artifactId>
+    <version>0.1-SNAPSHOT</version>
+    <inceptionYear>2016</inceptionYear>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <scala.majorVersion>2.11</scala.majorVersion>
+        <scala.minorVersion>.7</scala.minorVersion>
+        <scalatest.version>2.2.2</scalatest.version>
+        <junit.version>4.10</junit.version>
+        <factorie.version>1.2-SNAPSHOT</factorie.version>
+    </properties>
+
+    <repositories>
+        <!--<repository>-->
+        <!--<id>scala-tools.org</id>-->
+        <!--<name>Scala-Tools Maven2 Repository</name>-->
+        <!--<url>http://scala-tools.org/repo-releases</url>-->
+        <!--</repository>-->
+        <!--<repository>-->
+        <!--<id>iesl.cs.umass.edu</id>-->
+        <!--<name>IESL repository</name>-->
+        <!--<url>https://dev-iesl.cs.umass.edu/nexus/content/repositories/thirdparty/</url>-->
+        <!--</repository>-->
+        <repository>
+            <id>iesl.cs.umass.edu2</id>
+            <name>IESL repository</name>
+            <url>https://dev-iesl.cs.umass.edu/nexus/content/repositories/releases/</url>
+        </repository>
+
+        <repository>
+            <id>iesl.cs.umass.edu3</id>
+            <name>IESL repository</name>
+            <url>https://dev-iesl.cs.umass.edu/nexus/content/repositories/snapshots/</url>
+        </repository>
+
+        <repository>
+            <id>oss.sonatype.org-snapshot</id>
+            <url>http://oss.sonatype.org/content/repositories/snapshots</url>
+            <releases>
+                <enabled>false</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
+    </repositories>
+
+    <pluginRepositories>
+        <pluginRepository>
+            <id>scala-tools.org</id>
+            <name>Scala-Tools Maven2 Repository</name>
+            <url>http://scala-tools.org/repo-releases</url>
+        </pluginRepository>
+    </pluginRepositories>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.scala-lang</groupId>
+            <artifactId>scala-library</artifactId>
+            <version>${scala.majorVersion}${scala.minorVersion}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>cc.factorie</groupId>
+            <artifactId>factorie_${scala.majorVersion}</artifactId>
+            <version>${factorie.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>cc.factorie.app.nlp</groupId>
+            <artifactId>all-models</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>${junit.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.scalatest</groupId>
+            <artifactId>scalatest_${scala.majorVersion}</artifactId>
+            <version>2.2.1</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.tensorflow</groupId>
+            <artifactId>tensorflow</artifactId>
+            <version>1.1.0-rc2</version>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <sourceDirectory>src/main/scala</sourceDirectory>
+        <plugins>
+            <plugin>
+                <groupId>org.scalatest</groupId>
+                <artifactId>scalatest-maven-plugin</artifactId>
+                <version>1.0</version>
+                <configuration>
+                    <reportsDirectory>${project.build.directory}/surefire-reports</reportsDirectory>
+                    <junitxml>.</junitxml>
+                    <filereports>WDF TestSuite.txt</filereports>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>test</id>
+                        <goals>
+                            <goal>test</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.scala-tools</groupId>
+                <artifactId>maven-scala-plugin</artifactId>
+                <version>2.15.2</version>
+                <configuration>
+                    <scalaVersion>${scala.majorVersion}${scala.minorVersion}</scalaVersion>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>compile</goal>
+                            <goal>testCompile</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>2.5.1</version>
+                <executions>
+                    <execution>
+                        <phase>compile</phase>
+                        <goals>
+                            <goal>compile</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+</project>

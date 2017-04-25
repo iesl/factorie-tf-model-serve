@@ -46,11 +46,11 @@ object ModelServerDemo {
 
       println(s"sentences: ${doc.sentenceCount} tokens: ${doc.tokenCount}")
 
-      doc.sentences.foreach { s =>
+      /*doc.sentences.foreach { s =>
         s.tokens.foreach { t =>
           println(s"${t.positionInSentence}\t${t.string}\t${t.nerTag}")
         }
-      }
+      }*/
     }
   }
 }
