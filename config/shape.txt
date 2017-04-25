@@ -1,0 +1,5 @@
+AA	1
+a	2
+<PAD>	0
+aAa	4
+Aa	3
