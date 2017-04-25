@@ -10,9 +10,8 @@ A demo has been used to demonstrate this pre-trained model serving.
 The pre-trained model can be found [here](https://drive.google.com/file/d/0BwSW2f4WefKyRW4taDA4b1k3TlE/view?usp=sharing). Create a `models` folder in the root of the project and put the `models.pb` file in this folder.
 
 Additional dependencies: these should be put in the lib folder 
-  - [Factorie](https://github.com/factorie/factorie) >= 2.11
+  - [Factorie](https://github.com/factorie/factorie) with pre-trained models >= 2.11
   
 ### TODO:
   - Benchmarking
   - Adding support for different models
-  - SBT/Maven support (soon)
