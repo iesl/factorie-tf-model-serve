@@ -15,3 +15,4 @@ Additional dependencies: these should be put in the lib folder
 ### TODO:
   - Benchmarking
   - Adding support for different models
+  - Maven support
