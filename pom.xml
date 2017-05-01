@@ -101,9 +101,9 @@
         <resources>
             <resource>
                 <filtering>false</filtering>
-                <directory>${basedir}/src/main/native</directory>
+                <directory>${basedir}/src/main/resources/native</directory>
                 <includes>
-                    <include>libtensorflow_jni.so</include>
+                    <include>tensorflow_jni.so</include>
                 </includes>
             </resource>
         </resources>
