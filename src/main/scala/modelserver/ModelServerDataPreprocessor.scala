@@ -32,7 +32,7 @@ trait DataPreprocessor {
 
 }
 
-object DataPreprocessor extends ModelServerDataPreprocessor(100,
+object DataPreprocessor extends ModelServerDataPreprocessor(64,
   System.getProperty("user.dir") + "/config/vocabulary.txt",
   System.getProperty("user.dir") + "/config/shape.txt",
   System.getProperty("user.dir") + "/config/tags.txt")

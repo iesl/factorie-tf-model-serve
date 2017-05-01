@@ -99,9 +99,11 @@ class ModelServer(inputTensorParser: ModelServerInputTensorParser,
     val max_seq_tensor = Tensor.create(maxLength + 2) // adding a padding for the beginning and
     // the end
 
+    var start = System.nanoTime()
     val predictedLabels = feedBatchToSession(session, shapeTensor_X2, tokenTensor,
       batch_size_tensor, max_seq_tensor)
-
+    var end = System.nanoTime()
+    println("Time taken = " + (end-start))
     // map the predicted labels to NER tags, using the labelMap
     val labelsToTags = mapLabelsToTags(predictedLabels, seqLenMap)
 
