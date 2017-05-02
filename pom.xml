@@ -103,7 +103,7 @@
                 <filtering>false</filtering>
                 <directory>${basedir}/src/main/resources/native</directory>
                 <includes>
-                    <include>tensorflow_jni.so</include>
+                    <include>org/tensorflow/native/linux-x86_64/tensorflow_jni.so</include>
                 </includes>
             </resource>
         </resources>
