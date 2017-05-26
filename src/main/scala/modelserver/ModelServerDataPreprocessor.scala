@@ -20,15 +20,15 @@ trait DataPreprocessor {
   def loadLabelMap(): Unit
 
   def mapTokensToIndices(sentences: Iterable[Sentence],
-                         maxLength: Int): util.LinkedList[util.LinkedList[java.lang.Double]]
+                         maxLength: Int): util.ArrayList[util.ArrayList[java.lang.Double]]
 
   def mapTokensToShapes(sentences: Iterable[Sentence],
-                        maxLength: Int): util.LinkedList[util.LinkedList[java.lang.Double]]
+                        maxLength: Int): util.ArrayList[util.ArrayList[java.lang.Double]]
 
   def getBatchSeqLength(sentences: Iterable[Sentence]): util.HashMap[Integer, Integer]
 
   def populateTagsInSentences(sentences: Iterable[Sentence], labelsToTags:
-  util.HashMap[Integer, util.LinkedList[String]]): Unit
+  util.HashMap[Integer, util.ArrayList[String]]): Unit
 
 }
 
@@ -44,6 +44,10 @@ class ModelServerDataPreprocessor(batchSz: Int, vocabularyFilePath: String, shap
   var vocabulary = new util.HashMap[String, Int]()
   var shapeMap = new util.HashMap[String, Int]()
   var labelMap = new util.HashMap[Integer, String]()
+
+  loadVocabulary()
+  loadLabelMap()
+  loadShapeMap()
 
   /**
     * Load the vocabulary from a file into a hashmap
@@ -94,8 +98,8 @@ class ModelServerDataPreprocessor(batchSz: Int, vocabularyFilePath: String, shap
     * @return a batch of indexed sentences
     */
   def mapTokensToIndices(sentences: Iterable[Sentence],
-                         maxLength: Int): util.LinkedList[util.LinkedList[java.lang.Double]] = {
-    var batchSentenceList = new util.LinkedList[util.LinkedList[java.lang.Double]]()
+                         maxLength: Int): util.ArrayList[util.ArrayList[java.lang.Double]] = {
+    var batchSentenceList = new util.ArrayList[util.ArrayList[java.lang.Double]]()
 
     for (sentence <- sentences) {
       var batchSentence = processIndicesPerSentence(sentence, maxLength)
@@ -113,8 +117,8 @@ class ModelServerDataPreprocessor(batchSz: Int, vocabularyFilePath: String, shap
     * @return the sentence, indexed
     */
   def processIndicesPerSentence(sentence: Sentence,
-                                maxLength: Int): util.LinkedList[java.lang.Double] = {
-    var batchSentence = new util.LinkedList[java.lang.Double]()
+                                maxLength: Int): util.ArrayList[java.lang.Double] = {
+    var batchSentence = new util.ArrayList[java.lang.Double]()
     // first/beginning padding
     batchSentence.add(0.0)
 
@@ -141,8 +145,8 @@ class ModelServerDataPreprocessor(batchSz: Int, vocabularyFilePath: String, shap
     * @return the mapped sentence shapes
     */
   def mapTokensToShapes(sentences: Iterable[Sentence],
-                        maxLength: Int): util.LinkedList[util.LinkedList[java.lang.Double]] = {
-    var batchSentenceList = new util.LinkedList[util.LinkedList[java.lang.Double]]()
+                        maxLength: Int): util.ArrayList[util.ArrayList[java.lang.Double]] = {
+    var batchSentenceList = new util.ArrayList[util.ArrayList[java.lang.Double]]()
 
     for (sentence <- sentences) {
       var batchSentence = processShapesPerSentence(sentence, maxLength)
@@ -159,8 +163,8 @@ class ModelServerDataPreprocessor(batchSz: Int, vocabularyFilePath: String, shap
     * @return the mapped sentence
     */
   def processShapesPerSentence(sentence: Sentence,
-                               maxLength: Int): util.LinkedList[java.lang.Double] = {
-    var batchSentence = new util.LinkedList[java.lang.Double]()
+                               maxLength: Int): util.ArrayList[java.lang.Double] = {
+    var batchSentence = new util.ArrayList[java.lang.Double]()
     // first/beginning padding
     batchSentence.add(0.0)
 
@@ -234,7 +238,7 @@ class ModelServerDataPreprocessor(batchSz: Int, vocabularyFilePath: String, shap
     * @param labelsToTags
     */
   def populateTagsInSentences(sentences: Iterable[Sentence], labelsToTags:
-  util.HashMap[Integer, util.LinkedList[String]]): Unit = {
+  util.HashMap[Integer, util.ArrayList[String]]): Unit = {
     val rows = labelsToTags.size()
     var i = 0
     for (sentence <- sentences) {
@@ -249,7 +253,7 @@ class ModelServerDataPreprocessor(batchSz: Int, vocabularyFilePath: String, shap
     * @param sentence
     * @param strings
     */
-  def populateTagPerSentence(sentence: Sentence, strings: util.LinkedList[String]): Unit = {
+  def populateTagPerSentence(sentence: Sentence, strings: util.ArrayList[String]): Unit = {
     val size = strings.size()
     var i = 0
     for (token <- sentence.tokens) {

@@ -19,7 +19,7 @@ class ModelServerInputTensorParser {
     * @param batchTokenShapes token shapes of the batch
     * @return a tensor constructed from the batchTokenShapes
     */
-  def getShapeTensor(batchTokenShapes: util.LinkedList[util.LinkedList[java.lang.Double]])
+  def getShapeTensor(batchTokenShapes: util.ArrayList[util.ArrayList[java.lang.Double]])
   : Tensor = {
     var shape_file_line = batchTokenShapes.get(0)
     val shape_file_line_size = shape_file_line.size
@@ -46,7 +46,7 @@ class ModelServerInputTensorParser {
     * @param batchTokenIndices the token indices from the batch
     * @return a tensor constructed from the batchTokenIndices
     */
-  def getTokenTensor(batchTokenIndices: util.LinkedList[util.LinkedList[java.lang.Double]]):
+  def getTokenTensor(batchTokenIndices: util.ArrayList[util.ArrayList[java.lang.Double]]):
   Tensor = {
     var token_file_line = batchTokenIndices.get(0)
     val token_file_line_size = token_file_line.size

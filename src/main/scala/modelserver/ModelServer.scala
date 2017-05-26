@@ -3,7 +3,6 @@ package main.scala.modelserver
 import java.nio.file.Paths
 import java.util
 
-import cc.factorie.app.nlp.ner.BilouConllNerTag
 import cc.factorie.app.nlp.{Document, Sentence}
 import org.tensorflow.{Graph, Session, Tensor}
 
@@ -21,9 +20,9 @@ class ModelServer(inputTensorParser: ModelServerInputTensorParser,
     */
   def processDocument(document: Document): Document = {
 
-    dataPreprocessor.loadVocabulary()
+    /*dataPreprocessor.loadVocabulary()
     dataPreprocessor.loadShapeMap()
-    dataPreprocessor.loadLabelMap()
+    dataPreprocessor.loadLabelMap()*/
 
     val sentences = document.sentences
 
@@ -131,16 +130,17 @@ class ModelServer(inputTensorParser: ModelServerInputTensorParser,
     output
   }
 
-  def getAccuracy(labels_map: util.HashMap[Integer, util.LinkedList[Long]], seq_len_map: util.HashMap[Integer, Integer], output: Tensor): Unit = {
+  def getAccuracy(labels_map: util.HashMap[Integer, util.ArrayList[Long]], seq_len_map: util
+  .HashMap[Integer, Integer], output: Tensor): Unit = {
     var outputShape = output.shape()
     var rows = java.lang.Integer.valueOf(String.valueOf(outputShape(0)))
     var cols = java.lang.Integer.valueOf(String.valueOf(outputShape(1)))
     val m = Array.ofDim[Long](rows, cols)
-    val predictedLabels = new util.HashMap[Integer, util.LinkedList[Long]]
+    val predictedLabels = new util.HashMap[Integer, util.ArrayList[Long]]
     val matrix = output.copyTo(m)
     var k = 0
     while (k < rows) {
-      val row = new util.LinkedList[Long]
+      val row = new util.ArrayList[Long]
       var y = 0
       while (y < cols) {
         row.add(matrix(k)(y))
@@ -152,7 +152,8 @@ class ModelServer(inputTensorParser: ModelServerInputTensorParser,
     compare(labels_map, predictedLabels, seq_len_map)
   }
 
-  def compare(labels: util.HashMap[Integer, util.LinkedList[Long]], predictedLabels: util.HashMap[Integer, util.LinkedList[Long]], seq_len_map: util.HashMap[Integer, Integer]): Unit = {
+  def compare(labels: util.HashMap[Integer, util.ArrayList[Long]], predictedLabels: util.HashMap[Integer,
+    util.ArrayList[Long]], seq_len_map: util.HashMap[Integer, Integer]): Unit = {
     var count = 0
     var total = 0
     var i = 0
@@ -178,16 +179,16 @@ class ModelServer(inputTensorParser: ModelServerInputTensorParser,
     * @return the mapped sentences
     */
   def mapLabelsToTags(output: Tensor, seqLenMap: util.HashMap[Integer, Integer]):
-  util.HashMap[Integer, util.LinkedList[String]] = {
+  util.HashMap[Integer, util.ArrayList[String]] = {
     var outputShape = output.shape()
     var rows = java.lang.Integer.valueOf(String.valueOf(outputShape(0)))
     var cols = java.lang.Integer.valueOf(String.valueOf(outputShape(1)))
     val m = Array.ofDim[Long](rows, cols)
     val matrix = output.copyTo(m)
-    val predictedLabels = new util.HashMap[Integer, util.LinkedList[String]]
+    val predictedLabels = new util.HashMap[Integer, util.ArrayList[String]]
     var k = 0
     while (k < rows) {
-      val row = new util.LinkedList[String]
+      val row = new util.ArrayList[String]
       val rowSeqLen = seqLenMap.get(k)
       var y = 1
       while (y < cols) {
