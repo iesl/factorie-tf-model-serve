@@ -43,6 +43,6 @@ object ModelServerDemo {
       }*/
     }
     var end = System.nanoTime()
-    println("Time taken = " + ((end-start)/(10^6)))
+    println("Time taken = " + ((end-start)/(1000000) + " ms"))
   }
 }
