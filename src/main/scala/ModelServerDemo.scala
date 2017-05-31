@@ -30,6 +30,7 @@ object ModelServerDemo {
     val annotators = Seq(DeterministicNormalizingTokenizer, DeterministicSentenceSegmenter, modelServerNER)
     val pipeline = new DocumentAnnotationPipeline(annotators)
 
+    var start = System.nanoTime()
     for (doc <- documents) {
       pipeline.process(doc)
 
@@ -41,5 +42,7 @@ object ModelServerDemo {
         }
       }*/
     }
+    var end = System.nanoTime()
+    println("Time taken = " + ((end-start)/(10^6)))
   }
 }

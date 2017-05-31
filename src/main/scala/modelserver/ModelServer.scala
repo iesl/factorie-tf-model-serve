@@ -13,6 +13,8 @@ class ModelServer(inputTensorParser: ModelServerInputTensorParser,
                   dataPreprocessor: ModelServerDataPreprocessor,
                   modelPath: String) {
 
+  val session = loadGraph(modelPath)
+
   /**
     * Run each document through the loaded graph
     *
@@ -27,7 +29,7 @@ class ModelServer(inputTensorParser: ModelServerInputTensorParser,
     val sentences = document.sentences
 
     // load the frozen graph into a session
-    val session = loadGraph(modelPath)
+
 
     // grouping the sentences into a batch of the denoted size
     val grouped = sentences.toArray.grouped(dataPreprocessor.batchSize)
@@ -98,11 +100,8 @@ class ModelServer(inputTensorParser: ModelServerInputTensorParser,
     val max_seq_tensor = Tensor.create(maxLength + 2) // adding a padding for the beginning and
     // the end
 
-    var start = System.nanoTime()
     val predictedLabels = feedBatchToSession(session, shapeTensor_X2, tokenTensor,
       batch_size_tensor, max_seq_tensor)
-    var end = System.nanoTime()
-    println("Time taken = " + (end-start))
     // map the predicted labels to NER tags, using the labelMap
     val labelsToTags = mapLabelsToTags(predictedLabels, seqLenMap)
 
