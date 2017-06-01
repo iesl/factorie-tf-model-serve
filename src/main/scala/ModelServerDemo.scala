@@ -17,15 +17,12 @@ import scala.io.Source
 object ModelServerDemo {
   def main(args: Array[String]): Unit = {
     val currentDir = System.getProperty("user.dir")
-    val inputDataFileName = currentDir + "/data/input_3.txt"
     val modelPath = currentDir + "/models/model.pb"
-
-    //    var documents = LoadPlainText.fromSource(Source.fromFile(file = new File(inputDataFileName)))
 
     object modelServer extends ModelServer(InputTensorParser, DataPreprocessor, modelPath)
     object modelServerNER extends ModelServerNER[BilouConllNerTag](modelServer)
 
-    val documents = LoadPlainText.fromSource(Source.fromFile(file = new File(inputDataFileName)))
+    val documents = LoadPlainText.fromSource(Source.fromInputStream(getClass().getResourceAsStream("/demo/input_3.txt")))
 
     val annotators = Seq(DeterministicNormalizingTokenizer, DeterministicSentenceSegmenter, modelServerNER)
     val pipeline = new DocumentAnnotationPipeline(annotators)

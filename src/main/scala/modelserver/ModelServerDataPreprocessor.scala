@@ -33,9 +33,9 @@ trait DataPreprocessor {
 }
 
 object DataPreprocessor extends ModelServerDataPreprocessor(64,
-  System.getProperty("user.dir") + "/config/vocabulary.txt",
-  System.getProperty("user.dir") + "/config/shape.txt",
-  System.getProperty("user.dir") + "/config/tags.txt")
+  "/config/vocabulary.txt",
+  "/config/shape.txt",
+  "/config/tags.txt")
 
 class ModelServerDataPreprocessor(batchSz: Int, vocabularyFilePath: String, shapeFilePath: String,
                                   labelFilePath: String) extends DataPreprocessor {
@@ -55,7 +55,7 @@ class ModelServerDataPreprocessor(batchSz: Int, vocabularyFilePath: String, shap
     */
   def loadVocabulary(): Unit = {
     val count = 0
-    for (line <- Source.fromFile(vocabularyFilePath).getLines) {
+    for (line <- Source.fromInputStream(getClass().getResourceAsStream(vocabularyFilePath)).getLines) {
       val split = line.split("\t")
       if (split.size == 1) {
         vocabulary.put(" ", Integer.valueOf(split(0)))
@@ -72,7 +72,7 @@ class ModelServerDataPreprocessor(batchSz: Int, vocabularyFilePath: String, shap
   def loadShapeMap(): Unit = {
     val count = 0
 
-    for (line <- Source.fromFile(shapeFilePath).getLines) {
+    for (line <- Source.fromInputStream(getClass().getResourceAsStream(shapeFilePath)).getLines) {
       val split = line.split("\t")
       shapeMap.put(split(0), Integer.valueOf(split(1)))
     }
@@ -84,7 +84,7 @@ class ModelServerDataPreprocessor(batchSz: Int, vocabularyFilePath: String, shap
     */
   def loadLabelMap(): Unit = {
     val count = 0
-    for (line <- Source.fromFile(labelFilePath).getLines) {
+    for (line <- Source.fromInputStream(getClass().getResourceAsStream(labelFilePath)).getLines) {
       val split = line.split("\t")
       labelMap.put(Integer.valueOf(split(1)), split(0))
     }
